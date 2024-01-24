@@ -23,7 +23,9 @@ export default function UpdateListing() {
     venue: "",
     startingDateTime: "",
     endingDateTime: "",
-    winner: "",
+    winner1: "",
+    winner2: "",
+    winner3: "",
   });
   const [imageUploadError, setImageUploadError] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -323,14 +325,32 @@ export default function UpdateListing() {
               </div>
             ))}
 
-          <input
-          type="text"
-          id="winner"
-          placeholder="Winner"
-          className="border-b-2 p-2 rounded-lg outline-none bg-transparent mt-7 placeholder:text-white"
-          onChange={handleChange}
-          value={formData.winner}
-        />
+         <input
+            type="text"
+            id="winner1"
+            placeholder="Winner"
+            className="border-b-2 p-2 rounded-lg outline-none bg-transparent mt-7 placeholder:text-white"
+            onChange={handleChange}
+            value={formData.winner1}
+            />
+
+            <input
+            type="text"
+            id="winner2"
+            placeholder="Winner"
+            className="border-b-2 p-2 rounded-lg outline-none bg-transparent mt-7 placeholder:text-white"
+            onChange={handleChange}
+            value={formData.winner2}
+            />
+
+            <input
+            type="text"
+            id="winner3"
+            placeholder="Winner"
+            className="border-b-2 p-2 rounded-lg outline-none bg-transparent mt-7 placeholder:text-white"
+            onChange={handleChange}
+            value={formData.winner3}
+            />
           <button
             disabled={loading || uploading}
             className="bg-transparent mt-9  text-white text-xl font-medium p-2 cursor-pointer rounded-lg border border-white hover:bg-white duration-300 hover:text-black"
