@@ -139,15 +139,15 @@ export default function Listing() {
               <p className="text-sm line-clamp-10  max-[690px]:text-xs">{listing.description}</p>
             </p>
 
-            <button onClick={handleShowWinnerListings} className="text-white w-full">
-              Show Listings
+            <button onClick={handleShowWinnerListings} className="text-white w-full hover:underline">
+              Winner
             </button>
-            <p className="text-red-700 mt-5">
-              {showWinnerListingsError ? "After 1 hour winner will be updated" : ""}
-              </p>
-            { showWinnerListingsError && (
-              <div className="flex flex-col gap-4 text-white font-serif text-xl">
-                    <p>{listing.winner}</p> 
+
+            {showWinnerListingsError && (
+              <div className="flex flex-col self-center text-white font-serif text-xl items-center">
+                <p>{listing.winner1}</p> 
+                <p>{listing.winner2}</p> 
+                <p>{listing.winner3}</p> 
               </div>
             )}
 
