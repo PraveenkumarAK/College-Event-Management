@@ -22,7 +22,6 @@ export default function CreateListing() {
     venue: "",
     startingDateTime: "",
     endingDateTime: "",
-    winner: "",
   });
   const [imageUploadError, setImageUploadError] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -308,14 +307,6 @@ export default function CreateListing() {
               </div>
             ))}
 
-             <input
-          type="text"
-          id="winner"
-          placeholder="Winner"
-          className="border-b-2 p-2 rounded-lg outline-none bg-transparent mt-7 placeholder:text-white"
-          onChange={handleChange}
-          value={formData.winner}
-        />
           <button
             disabled={loading || uploading}
             className="bg-transparent mt-9  text-white text-xl font-medium p-2 cursor-pointer rounded-lg border border-white hover:bg-white duration-300 hover:text-black"
