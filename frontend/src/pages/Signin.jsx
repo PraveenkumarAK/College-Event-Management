@@ -41,7 +41,7 @@ export default function Signin() {
         return;
       }
       dispatch(signInSuccess(data));
-      navigate("");
+      navigate("/profile");
     } catch (error) {
       dispatch(signInFailure(error.message));
     }
@@ -83,7 +83,7 @@ export default function Signin() {
           disabled={loading}
           className="bg-transparent w-64  flex justify-center text-white text-xl font-medium p-2 cursor-pointer rounded-lg border border-white hover:bg-white duration-300 hover:text-black"
         >
-          {loading ? "Loading..." : "Sign up"}
+          {loading ? "Loading..." : "Sign in"}
         </button>
         <OAuth />
       <div className="flex gap-2 mt-5 text-white max-[690px]:w-64">
