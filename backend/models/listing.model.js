@@ -41,12 +41,12 @@ const listingSchema = new mongoose.Schema(
     },
     winner2: {
       type: String,
-      default:"After 1 hour winner will be updated",
+      default:"",
       required: true,
     },
     winner3: {
       type: String,
-      default:"After 1 hour winner will be updated",
+      default:"",
       required: true,
     },
     userRef: {
