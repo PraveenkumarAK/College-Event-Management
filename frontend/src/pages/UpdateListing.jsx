@@ -328,7 +328,7 @@ export default function UpdateListing() {
          <input
             type="text"
             id="winner1"
-            placeholder="Winner"
+            placeholder="Winner 1"
             className="border-b-2 p-2 rounded-lg outline-none bg-transparent mt-7 placeholder:text-white"
             onChange={handleChange}
             value={formData.winner1}
@@ -337,7 +337,7 @@ export default function UpdateListing() {
             <input
             type="text"
             id="winner2"
-            placeholder="Winner"
+            placeholder="Winner 2"
             className="border-b-2 p-2 rounded-lg outline-none bg-transparent mt-7 placeholder:text-white"
             onChange={handleChange}
             value={formData.winner2}
@@ -346,7 +346,7 @@ export default function UpdateListing() {
             <input
             type="text"
             id="winner3"
-            placeholder="Winner"
+            placeholder="Winner 3"
             className="border-b-2 p-2 rounded-lg outline-none bg-transparent mt-7 placeholder:text-white"
             onChange={handleChange}
             value={formData.winner3}
