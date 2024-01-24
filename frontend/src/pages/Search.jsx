@@ -88,7 +88,7 @@ export default function Search() {
   };
   return (
     <div className="flex flex-col md:flex-row text-white">
-      <div className="p-7 border-b-2 md:border-r-2 md:min-h-screen max-[380px]:text-sm">
+      <div className="p-7 border-b-2 md:border-r-2 md:min-h-screen max-[380px]:text-base">
         <form onSubmit={handleSubmit} className="flex flex-col gap-8">
           <div className="flex items-center gap-2">
             <label className="whitespace-nowrap font-semibold">
@@ -138,7 +138,7 @@ export default function Search() {
               <span>Art Event</span>
             </div>
           </div>
-          <button className='bg-transparent w-64 self-center text-white text-xl font-medium p-2 cursor-pointer rounded-lg border border-white hover:bg-white duration-300 hover:text-black max-[380px]:h-9 max-[380px]:w-36 flex items-center justify-center max-[380px]:text-base'>
+          <button className='bg-transparent w-64 self-center text-white text-xl font-medium p-2 cursor-pointer rounded-lg border border-white hover:bg-white duration-300 hover:text-black max-[380px]:h-9 max-[380px]:w-48 flex items-center justify-center max-[380px]:text-base'>
             Search
           </button>
         </form>
