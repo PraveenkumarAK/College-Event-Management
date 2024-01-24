@@ -54,10 +54,10 @@ export default function Listing() {
   };
 
   return (
-    <main>
+    <main className="text-white">
       {loading && <p className="text-center my-7 text-2xl">Loading...</p>}
       {error && (
-        <p className="text-center my-7 text-2xl">Something went wrong!</p>
+        <p className="text-center my-7 text-2xl ">Something went wrong!</p>
       )}
       {listing && !loading && !error && (
         <div className="p-1 max-w-lg mx-auto  backdrop-blur-3xl  shadow-2xl mt-6 rounded-lg h-full max-[690px]:w-72 max-sm:mt-0">
