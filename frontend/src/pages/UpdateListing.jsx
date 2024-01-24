@@ -170,7 +170,7 @@ export default function UpdateListing() {
   return (
     <main className="p-3 max-w-4xl mx-auto  backdrop-blur-lg mt-8 shadow-2xl rounded-lg h-full  text-white ">
     <h1 className="text-3xl font-semibold text-center my-7 pb-2 border-b max-w-full">
-      Create a Listing
+      Update a Listing
     </h1>
 
     <form
