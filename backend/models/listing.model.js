@@ -36,7 +36,6 @@ const listingSchema = new mongoose.Schema(
     },
     winner: {
       type: String,
-      default: " ",
       required: true,
     },
     userRef: {
