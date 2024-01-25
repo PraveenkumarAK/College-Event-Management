@@ -22,6 +22,7 @@ export default function CreateListing() {
     venue: "",
     startingDateTime: "",
     endingDateTime: "",
+    winner: "",
   });
   const [imageUploadError, setImageUploadError] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -115,13 +116,6 @@ export default function CreateListing() {
     }
   };
 
-  const handleDateTime = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.id]: e.target.value,
-    });
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -145,6 +139,7 @@ export default function CreateListing() {
         setError(data.message);
       }
       navigate(`/listing/${data._id}`);
+      // navigate(`/profile`);
     } catch (error) {
       setError(error.message);
       setLoading(false);
@@ -199,7 +194,7 @@ export default function CreateListing() {
             placeholder="Starting Date & Time"
             className="border-b-2 p-2 rounded-lg outline-none bg-transparent mb-11"
             required
-            onChange={handleDateTime}
+            onChange={handleChange}
             value={formData.startingDateTime}
           />
         
@@ -209,7 +204,7 @@ export default function CreateListing() {
             placeholder="Ending Date & Time"
             className="border-b-2 p-2 rounded-lg outline-none bg-transparent mb-11"
             required
-            onChange={handleDateTime}
+            onChange={handleChange}
             value={formData.endingDateTime}
             /> 
 
@@ -306,6 +301,15 @@ export default function CreateListing() {
                 </button>
               </div>
             ))}
+
+            <textarea
+            id="winner"
+            placeholder="Winner"
+            className="border-b-2 p-2 rounded-lg outline-none bg-transparent mt-7 placeholder:text-white"
+            onChange={handleChange}
+            value={formData.winner}
+            required
+            />
 
           <button
             disabled={loading || uploading}
