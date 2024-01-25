@@ -18,6 +18,7 @@ export default function Listing() {
   const [showWinnerListingsError, setShowWinnerListingsError] = useState(false);
   const params = useParams();
   const { currentUser } = useSelector((state) => state.user);
+
   useEffect(() => {
     const fetchListing = async () => {
       try {
@@ -31,6 +32,7 @@ export default function Listing() {
         }
         setListing(data);
         setLoading(false);
+        setError(false);
       } catch (error) {
         setError(true);
         setLoading(false);
@@ -57,7 +59,7 @@ export default function Listing() {
     <main className="text-white">
       {loading && <p className="text-center my-7 text-2xl">Loading...</p>}
       {error && (
-        <p className="text-center my-7 text-2xl ">Something went wrong!</p>
+        <p className="text-center my-7 text-2xl">Something went wrong!</p>
       )}
       {listing && !loading && !error && (
         <div className="p-1 max-w-lg mx-auto  backdrop-blur-3xl  shadow-2xl mt-6 rounded-lg h-full max-[690px]:w-72 max-sm:mt-0">
@@ -76,7 +78,7 @@ export default function Listing() {
               ))}
             </Swiper>
 
-            <p className="fixed top-[3%] right-[12%] z-10 max-[690px]:right-[3%] max-[690px]:h-5  max-[690px]:w-5 border rounded-full w-6 h-6 flex justify-center bg-white items-center cursor-pointer">
+            <p className="fixed top-[3%] right-[12%] z-10 max-[690px]:right-[3%] max-[690px]:h-5  max-[690px]:w-5 border rounded-full w-6 h-6 flex justify-center bg-blackitems-center cursor-pointer">
               <IoIosShareAlt
                 onClick={() => {
                   navigator.clipboard.writeText(window.location.href);
@@ -88,7 +90,7 @@ export default function Listing() {
               />
             </p>
             {copied && (
-              <p className="fixed top-[8%] right-[5%] z-10 rounded-md bg-slate-100 p-1">
+              <p className="fixed top-[8%] right-[5%] z-10 rounded-md bg-black p-1">
                 Link copied!
               </p>
             )}
@@ -145,9 +147,7 @@ export default function Listing() {
 
             {showWinnerListingsError && (
               <div className="flex flex-col self-center text-white font-serif text-xl items-center">
-                <p>{listing.winner1}</p> 
-                <p>{listing.winner2}</p> 
-                <p>{listing.winner3}</p> 
+                <p>{listing.winner}</p> 
               </div>
             )}
 
