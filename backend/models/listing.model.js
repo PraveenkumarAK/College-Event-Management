@@ -34,19 +34,8 @@ const listingSchema = new mongoose.Schema(
       type: Array,
       required: true,
     },
-    winner1: {
+    winner: {
       type: String,
-      default:"After 1 hour winner will be updated",
-      required: true,
-    },
-    winner2: {
-      type: String,
-      default:"",
-      required: true,
-    },
-    winner3: {
-      type: String,
-      default:"",
       required: true,
     },
     userRef: {
