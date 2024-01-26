@@ -89,7 +89,7 @@ export default function Search() {
   };
   return (
     <div className="flex flex-col md:flex-row text-white" style={{backgroundSize:'cover', backgroundImage: `url(${background})`}}>
-      <div className="p-7 border-b-2 md:border-r-2 md:min-h-screen max-[380px]:text-base">
+      <div className="p-7 border-b-2 md:border-r-2 md:min-h-screen max-[380px]:text-base ">
         <form onSubmit={handleSubmit} className="flex flex-col gap-8">
           <div className="flex items-center gap-2">
             <label className="whitespace-nowrap font-semibold">
