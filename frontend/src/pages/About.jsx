@@ -1,9 +1,11 @@
 import React from 'react'
 import img from '../assets/pexels-wendy-wei-1190298.jpg'
+import background from '../assets/jeremy-chevallier.jpg'
 
 export default function About() {
   return (
-    <div className='max-w-6xl py-14 px-4  mx-auto backdrop-blur-lg shadow-2xl rounded-lg h-full  '>
+    <div  style={{backgroundSize:'cover', backgroundImage: `url(${background})`}}>
+    <div className='max-w-6xl py-14 px-4  mx-auto backdrop-blur-xl shadow-2xl rounded-lg h-full'>
         <h1 className='text-7xl font-bold mb-4 text-pink-600'>About Us</h1>
     <div className='flex gap-4'>
       <div className='max-sm:hidden'>
@@ -16,6 +18,7 @@ export default function About() {
         </p>
         <p className='mb-4 text-gray-300'>Promotion and engagement form the third paragraph of the event management strategy. Leveraging the college's technological prowess, organizers utilize social media, online platforms, and newsletters to disseminate information about upcoming events. With a focus on interactive elements such as robotics competitions, coding challenges, and guest lectures from industry experts, events at Karpagram College of Engineering are designed not only to educate but also to inspire innovation and collaboration. The aim is to create a dynamic and intellectually stimulating environment, fostering a strong sense of community among engineering students and leaving a lasting impact on their academic journey.</p>
       </div>
+    </div>
     </div>
     </div>
   )
