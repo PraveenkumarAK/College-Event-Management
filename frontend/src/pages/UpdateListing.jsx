@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useRef, useState, useEffect } from "react";
 import {
   getDownloadURL,
   getStorage,
@@ -6,345 +7,316 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { app } from "../firebase";
-import { useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import {
+  updateUserStart,
+  updateUserFailure,
+  updateUserSuccess,
+  deleteUserFailure,
+  deleteUserStart,
+  deleteUserSuccess,
+  signOutUserStart,
+  signOutUserFailure,
+  signOutUserSuccess,
+} from "../redux/User/userSlice";
+import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+import { MdDelete } from "react-icons/md";
+import { RiEdit2Fill } from "react-icons/ri";
+import { BiShowAlt } from "react-icons/bi";
+import { BiSolidHide } from "react-icons/bi";
 import background from '../assets/jeremy-chevallier.jpg'
 
-export default function UpdateListing() {
-  const { currentUser } = useSelector((state) => state.user);
-  const navigate = useNavigate();
-  const params = useParams();
-  const [files, setFiles] = useState([]);
-  const [formData, setFormData] = useState({
-    imageUrls: [],
-    name: "",
-    description: "",
-    type: "",
-    block: "",
-    venue: "",
-    startingDateTime: "",
-    endingDateTime: "",
-    winner: "",
-  });
-  const [imageUploadError, setImageUploadError] = useState(false);
-  const [uploading, setUploading] = useState(false);
-  const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(false);
-  
-  useEffect(()=>{
-    const fetchListing = async () => {
-        const listingId = params.listingId;
-        const res = await fetch(`/backend/listing/get/${listingId}`);
-        const data =await res.json();
-        if(data.success === false) {
-            console.log(data.message);
-            return;
-        }
-        setFormData(data);
-    };
-    fetchListing();
-  }, []);
+export default function profile() {
+  const fileRef = useRef(null);
+  const { currentUser, loading, error } = useSelector((state) => state.user);
+  const [file, setFile] = useState(undefined);
+  const [filePerc, setFilePerc] = useState(0);
+  const [fileUploadError, setFileUploadError] = useState(false);
+  const [formData, setFormData] = useState({});
+  const [updateSuccess, setUpdateSuccess] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showListingsError, setShowListingsError] = useState(false);
+  const [userListings, setUserListings] = useState([]);
+  const dispatch = useDispatch();
 
-  const handleImageSubmit = (e) => {
-    if (files.length > 0 && files.length + formData.imageUrls.length < 7) {
-      setUploading(true);
-      setImageUploadError(false);
-      const promises = [];
+  // firebase Storage
+  // allow read;
+  // allow write: if
+  // request.resource.size < 2 * 1024 * 1024 &&
+  // request.resource.contentType.matches('image/.*')
 
-      for (let i = 0; i < files.length; i++) {
-        promises.push(storeImage(files[i]));
-      }
-      Promise.all(promises)
-        .then((urls) => {
-          setFormData({
-            ...formData,
-            imageUrls: formData.imageUrls.concat(urls),
-          });
-          setImageUploadError(false);
-          setUploading(false);
-        })
-        .catch((err) => {
-          setImageUploadError("Image upload failed (2 mb max per image)");
-          setUploading(false);
-        });
-    } else {
-      setImageUploadError("You can only upload 6 images per listing");
-      setUploading(false);
+  useEffect(() => {
+    if (file) {
+      handleFileUpload(file);
     }
-  };
+  }, [file]);
 
-  const storeImage = async (file) => {
-    return new Promise((resolve, reject) => {
-      const storage = getStorage(app);
-      const fileName = new Date().getTime() + file.name;
-      const storageRef = ref(storage, fileName);
-      const uploadTask = uploadBytesResumable(storageRef, file);
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log(`Upload is ${progress}% done`);
-        },
-        (error) => {
-          reject(error);
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            resolve(downloadURL);
-          });
-        }
-      );
-    });
-  };
+  const handleFileUpload = (file) => {
+    const storage = getStorage(app);
+    const fileName = new Date().getTime() + file.name;
+    const storageRef = ref(storage, fileName);
+    const uploadTask = uploadBytesResumable(storageRef, file);
 
-  const handleRemoveImage = (index) => {
-    setFormData({
-      ...formData,
-      imageUrls: formData.imageUrls.filter((_, i) => i !== index),
-    });
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        setFilePerc(Math.round(progress));
+      },
+      (error) => {
+        setFileUploadError(true);
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) =>
+          setFormData({ ...formData, avatar: downloadURL })
+        );
+      }
+    );
   };
 
   const handleChange = (e) => {
-    if (
-    e.target.id === 'TechnicalEvent' || 
-    e.target.id === 'Workshops' || 
-    e.target.id === 'CulturalEvent' || 
-    e.target.id === 'Cooking' || 
-    e.target.id === 'FoodShops' || 
-    e.target.id === 'GamingEvent' || 
-    e.target.id === 'ArtEvent'){
-    setFormData({
-      ...formData,
-      type: e.target.id 
-    });
-  }
-    if (
-      e.target.type === "number" ||
-      e.target.type === "text" ||
-      e.target.type === "textarea"
-    ) {
-      setFormData({
-        ...formData,
-        [e.target.id]: e.target.value,
-      });
-    }
+    setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
-  const handleDateTime = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.id]: e.target.value,
-    });
+  const handleShowPassword = () => {
+    setShowPassword((preve) => !preve);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      if (formData.imageUrls.length < 1)
-        return setError("You must upload at least one image");
-      setLoading(true);
-      setError(false);
-      const res = await fetch(`/backend/listing/update/${params.listingId}`, {
+      dispatch(updateUserStart());
+      const res = await fetch(`/backend/user/update/${currentUser._id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          ...formData,
-          userRef: currentUser._id,
-        }),
+        body: JSON.stringify(formData),
       });
       const data = await res.json();
-      setLoading(false);
       if (data.success === false) {
-        setError(data.message);
+        dispatch(updateUserFailure(data.message));
+        return;
       }
-      navigate(`/listing/${data._id}`);
+
+      dispatch(updateUserSuccess(data));
+      setUpdateSuccess(true);
     } catch (error) {
-      setError(error.message);
-      setLoading(false);
+      dispatch(updateUserFailure(error.message));
     }
   };
+
+  const handleDeleteUser = async () => {
+    try {
+      dispatch(deleteUserStart());
+      const res = await fetch(`/backend/user/delete/${currentUser._id}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(deleteUserFailure(data.message));
+        return;
+      }
+      dispatch(deleteUserSuccess(data));
+    } catch (error) {
+      dispatch(deleteUserFailure(error.message));
+    }
+  };
+
+  const handleSignOut = async () => {
+    try {
+      dispatch(signOutUserStart());
+      const res = await fetch(`/backend/auth/signout`);
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(signOutUserFailure(data.message));
+        return;
+      }
+      dispatch(signOutUserSuccess(data));
+    } catch (error) {
+      dispatch(signOutUserFailure(data.message));
+    }
+  };
+
+  const handleShowListings = async () => {
+    try {
+      setShowListingsError(false);
+      const res = await fetch(`/backend/user/listings/${currentUser._id}`);
+      const data = await res.json();
+      if (data.winner === null) {
+        setShowListingsError(true);
+        return;
+      } 
+
+      setUserListings(data);
+    } catch (error) {
+      setShowListingsError(true);
+    }
+  };
+
+  const handleListingDelete = async (listingId) => {
+    try {
+      const res = await fetch(`/backend/listing/delete/${listingId}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        console.log(data.message);
+        return;
+      }
+      setUserListings((prev) =>
+        prev.filter((listing) => listing._id !== listingId)
+      );
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   return (
-    <div  style={{backgroundSize:'cover', backgroundImage: `url(${background})`}}>
+    <div style={{backgroundSize:'cover', backgroundImage: `url(${background})`}}>
       <div className="backdrop-blur-lg shadow-2xl">
-    <main className="p-3 max-w-4xl mx-auto h-full  text-white ">
-    <h1 className="text-3xl font-semibold text-center my-7 pb-2 border-b max-w-full">
-      Update a Listing
-    </h1>
-
-    <form
-      onSubmit={handleSubmit}
-      className=" flex flex-col sm:flex-row gap-4 "
-    >
-      <div className="flex flex-col flex-1">
-
+    <div className="p-3 max-w-lg mx-auto h-screen ">
+      <h1 className="text-3xl font-semibold text-center my-7 text-white">
+        Profile
+      </h1>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
-          type="text"
-          id="name"
-          placeholder="Event Name"
-          className="border-b-2 p-4 rounded-lg outline-none bg-transparent mb-11"
-          required
-          onChange={handleChange}
-          value={formData.name}
+          onChange={(e) => setFile(e.target.files[0])}
+          type="file"
+          ref={fileRef}
+          hidden
+          accept="image/*"
         />
 
-
-        <input
-          type="text"
-          id="block"
-          placeholder="Block"
-          className="border-b-2 p-2 rounded-lg outline-none bg-transparent mb-11"
-          required
-          onChange={handleChange}
-          value={formData.block}
+        <img
+          onClick={() => fileRef.current.click()}
+          src={formData.avatar || currentUser.avatar}
+          alt="profile"
+          className="rounded-full h-24 w-24 object-cover cursor-pointer self-center mt-2"
         />
 
-        <input
-          type="text"
-          id="venue"
-          placeholder="Venue"
-          className="border-b-2 p-2 rounded-lg outline-none bg-transparent mb-11"
-          required
-          onChange={handleChange}
-          value={formData.venue}
-        />
-
-        <input
-          type={"text"}
-          id="startingDateTime"
-          placeholder="Starting Date & Time"
-          className="border-b-2 p-2 rounded-lg outline-none bg-transparent mb-11"
-          required
-          onChange={handleDateTime}
-          value={formData.startingDateTime}
-        />
-      
-        <input
-          type={"text"}
-          id="endingDateTime"
-          placeholder="Ending Date & Time"
-          className="border-b-2 p-2 rounded-lg outline-none bg-transparent mb-11"
-          required
-          onChange={handleDateTime}
-          value={formData.endingDateTime}
-          /> 
-
-        <textarea
-          type="text"
-          id="description"
-          placeholder="Description"
-          className="border-b-2 p-2 rounded-lg outline-none bg-transparent mb-11"
-          required
-          onChange={handleChange}
-          value={formData.description}
-        />
-          </div>
-
-        <div className="flex flex-col flex-1 p-2">
-          <label >Category</label>
-        <div className="flex gap-6 flex-wrap py-4 ">
-          <div className="flex gap-2">
-              <input type="checkbox" id='TechnicalEvent' className="w-5 " onChange={handleChange} checked={formData.type === 'TechnicalEvent'}/>
-              <span>Technical Event</span>
-          </div>
-          <div className="flex gap-2">
-                <input type="checkbox" id='Workshops' className="w-5 " onChange={handleChange} checked={formData.type === 'Workshops'}/>
-              <span>Workshops</span>
-          </div>
-          <div className="flex gap-2">
-                <input type="checkbox" id='CulturalEvent' className="w-5 " onChange={handleChange} checked={formData.type === 'CulturalEvent'}/>
-              <span>Cultural Event</span>
-          </div>
-          <div className="flex gap-2">
-                <input type="checkbox" id='Cooking' className="w-5 " onChange={handleChange} checked={formData.type === 'Cooking'}/>
-              <span>Cooking</span>
-          </div>
-          <div className="flex gap-2">
-                <input type="checkbox" id='FoodShops' className="w-5 " onChange={handleChange} checked={formData.type === 'FoodShops'}/>
-              <span>FoodShops</span>
-          </div>
-          <div className="flex gap-2">
-                <input type="checkbox" id='GamingEvent' className="w-5 " onChange={handleChange} checked={formData.type === 'GamingEvent'}/>
-              <span>Gaming Event</span>
-          </div>
-          <div className="flex gap-2">
-                <input type="checkbox" id='ArtEvent' className="w-5 " onChange={handleChange} checked={formData.type === 'ArtEvent'}/>
-              <span>Art Event</span>
-          </div>
-        </div>
-
-        <p className="font-extrabold mt-5">
-          Images:
-          <span className="font-normal ml-2">
-            The first image will be the cover(max6)
-          </span>
+        <p className="text-sm self-center">
+          {fileUploadError ? (
+            <span className="text-red-700">
+              Error Image upload(image must be a less than 2 mb)
+            </span>
+          ) : filePerc > 0 && filePerc < 100 ? (
+            <span className="text-green-400">{`Uploading ${filePerc}%`}</span>
+          ) : filePerc === 100 ? (
+            <span className="text-green-400">Image successfully uploaded!</span>
+          ) : (
+            ""
+          )}
         </p>
 
-        <div className="flex gap-4 mt-5">
-          <input
-            onChange={(e) => setFiles(e.target.files)}
-            className="p-3 border border-gray-300 rounded w-full"
-            type="file"
-            id="image"
-            accept="image/*"
-            multiple
-          />
+        <input
+          type="text"
+          placeholder="username"
+          defaultValue={currentUser.username}
+          className="border-b-2 p-3 rounded-lg outline-none bg-transparent text-white placeholder:text-white"
+          id="username"
+          onChange={handleChange}
+        />
 
-              <button
-              type="button"
-              disabled={uploading}
-              onClick={handleImageSubmit}
-              className="bg-transparent w-64 text-white text-xl font-medium p-2 cursor-pointer rounded-lg border border-white hover:bg-white duration-300 hover:text-black"
-            >
-              
-              {uploading ? "Uploading..." : "Upload"}
-            </button>
+        <input
+          type="email"
+          placeholder="email"
+          defaultValue={currentUser.email}
+          className="border-b-2 p-3 rounded-lg outline-none bg-transparent text-white placeholder:text-white "
+          id="email"
+          onChange={handleChange}
+        />
 
+        <div className="flex">
+        <input
+          type={showPassword ? "text" : "password"}
+          placeholder="password"
+          className="border-b-2 p-3 rounded-lg outline-none bg-transparent text-white placeholder:text-white w-full"
+          id="password"
+          onChange={handleChange}
+        />
+          <span className="flex text-xl mt-5 -ml-6 cursor-pointer text-white" onClick={handleShowPassword}>
+              {showPassword ? <BiShowAlt /> : <BiSolidHide />}
+          </span>
           </div>
-          <p className="text-red-700 text-sm">
-            {imageUploadError && imageUploadError}
-          </p>
-          {formData.imageUrls.length > 0 &&
-            formData.imageUrls.map((url, index) => (
-              <div
-                key={url}
-                className="flex justify-between p-3 border items-center"
-              >
-                <img
-                  src={url}
-                  alt="listing image"
-                  className="w-20 h-16 object-cover rounded-lg"
-                />
-                <button
-                  type="button"
-                  onClick={() => handleRemoveImage(index)}
-                  className="p-3 text-red-700 rounded-lg uppercase hover:opacity-75 font-mono"
-                >
-                  Delete
-                </button>
-              </div>
-            ))}
 
-            <textarea
-            id="winner"
-            placeholder="Winner"
-            className="border-b-2 p-2 rounded-lg outline-none bg-transparent mt-7 placeholder:text-white"
-            onChange={handleChange}
-            value={formData.winner}
-            />
-
-          <button
-            disabled={loading || uploading}
-            className="bg-transparent mt-9  text-white text-xl font-medium p-2 cursor-pointer rounded-lg border border-white hover:bg-white duration-300 hover:text-black"
-          >
-            {loading ? "Updating..." : "Update Listing"}
-          </button>
-          {error && <p className="text-red-700 text-sm">{error}</p>}
-        </div>
+        <button
+          disabled={loading}
+          className="bg-transparent w-full text-white text-xl font-medium p-2 cursor-pointer rounded-lg border border-white hover:bg-white duration-300 hover:text-black"
+        >
+          {loading ? "Loading..." : "Update"}
+        </button>
+        <Link
+          className="bg-transparent w-full text-center text-white text-xl font-medium p-2 cursor-pointer rounded-lg border border-white hover:bg-white duration-300 hover:text-black"
+          to={"/create-listing"}
+        >
+          Create Listing
+        </Link>
       </form>
-    </main>
+      <div className="flex justify-between mt-5">
+        <span
+          onClick={handleDeleteUser}
+          className="text-white cursor-pointer "
+        >
+          Delete Account
+        </span>
+
+        <span onClick={handleSignOut} className="text-white cursor-pointer">
+          Sign out
+        </span>
+      </div>
+      <p className="text-red-700 mt-5">{error ? error : ""}</p>
+      <p className="text-green-400 mt-5">
+        {updateSuccess ? "user is updated successfully!" : ""}
+      </p>
+      <button onClick={handleShowListings} className="text-white w-full">
+        Show Listings
+      </button>
+      <p className="text-red-700 mt-5">
+        {showListingsError ? "Error showing listings" : ""}
+      </p>
+
+      {userListings && userListings.length > 0 && (
+        <div className="flex flex-col gap-4">
+          <h1 className="text-center mt-7 text-2xl font-semibold text-white">
+            Your Listings
+          </h1>
+          {userListings.map((listing) => (
+            <div
+              key={listing._id}
+              className="border rounded-lg p-3 flex justify-between items-center gap-4"
+            >
+              <Link to={`/listing/${listing._id}`}>
+                <img
+                  src={listing.imageUrls[0]}
+                  alt="listing cover"
+                  className="h-16 w-16 object-contain"
+                />
+              </Link>
+              <Link
+                className="text-white font-semibold hover:underline truncate flex-1"
+                to={`/listing/${listing._id}`}
+              >
+                <p>{listing.name}</p>
+              </Link>
+              <div className="flex flex-col items-center gap-4">
+                <button
+                  onClick={() => handleListingDelete(listing._id)}
+                  className="text-slate-100 uppercase"
+                >
+                  <MdDelete />
+
+                </button>
+                <Link to={`/update-listing/${listing._id}`}>
+                <button className="text-slate-100 uppercase"><RiEdit2Fill /></button>
+                </Link>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
     </div>
     </div>
   );
