@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ListingItem from '../components/Listingitem';
+import background from '../assets/jeremy-chevallier.jpg'
 
 export default function Search() {
   const navigate = useNavigate();
@@ -87,7 +88,7 @@ export default function Search() {
     setListings([...listings, ...data]);
   };
   return (
-    <div className="flex flex-col md:flex-row text-white">
+    <div className="flex flex-col md:flex-row text-white" style={{backgroundSize:'cover', backgroundImage: `url(${background})`}}>
       <div className="p-7 border-b-2 md:border-r-2 md:min-h-screen max-[380px]:text-base">
         <form onSubmit={handleSubmit} className="flex flex-col gap-8">
           <div className="flex items-center gap-2">
