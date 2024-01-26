@@ -3,7 +3,6 @@ import { useRef, useState, useEffect } from "react";
 import {
   getDownloadURL,
   getStorage,
-  list,
   ref,
   uploadBytesResumable,
 } from "firebase/storage";
@@ -25,6 +24,7 @@ import { MdDelete } from "react-icons/md";
 import { RiEdit2Fill } from "react-icons/ri";
 import { BiShowAlt } from "react-icons/bi";
 import { BiSolidHide } from "react-icons/bi";
+import background from '../assets/jeremy-chevallier.jpg'
 
 export default function profile() {
   const fileRef = useRef(null);
@@ -174,6 +174,7 @@ export default function profile() {
   };
 
   return (
+    <div style={{backgroundSize:'cover', backgroundImage: `url(${background})`}}>
     <div className="p-3 max-w-lg mx-auto backdrop-blur-lg shadow-2xl rounded-lg h-full ">
       <h1 className="text-3xl font-semibold text-center my-7 text-white">
         Profile
@@ -234,7 +235,7 @@ export default function profile() {
           id="password"
           onChange={handleChange}
         />
-          <span className="flex text-xl mt-5 -ml-6 cursor-pointer" onClick={handleShowPassword}>
+          <span className="flex text-xl mt-5 -ml-6 cursor-pointer text-white" onClick={handleShowPassword}>
               {showPassword ? <BiShowAlt /> : <BiSolidHide />}
           </span>
           </div>
@@ -314,6 +315,7 @@ export default function profile() {
           ))}
         </div>
       )}
+    </div>
     </div>
   );
 }
