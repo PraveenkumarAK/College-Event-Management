@@ -7,7 +7,6 @@ import "swiper/css/bundle";
 import { IoIosShareAlt } from "react-icons/io";
 import Query from "../components/Query";
 import { useSelector } from "react-redux";
-import background from '../assets/jeremy-chevallier.jpg'
 
 export default function Listing() {
   SwiperCore.use([Navigation]);
@@ -57,13 +56,13 @@ export default function Listing() {
   };
 
   return (
-    <main className="text-white" style={{backgroundSize:'cover', backgroundImage: `url(${background})`}}>
+    <main className="text-white">
       {loading && <p className="text-center my-7 text-2xl">Loading...</p>}
       {error && (
         <p className="text-center my-7 text-2xl">Something went wrong!</p>
       )}
       {listing && !loading && !error && (
-        <div className="p-1 max-w-lg mx-auto  backdrop-blur-xl  shadow-2xl rounded-lg h-full max-[690px]:w-72 max-sm:mt-0">
+        <div className="p-1 max-w-lg mx-auto  backdrop-blur-3xl  shadow-2xl mt-6 rounded-lg h-full max-[690px]:w-72 max-sm:mt-0">
           <div>
             <Swiper navigation className="mt-2">
               {listing.imageUrls.map((url) => (
