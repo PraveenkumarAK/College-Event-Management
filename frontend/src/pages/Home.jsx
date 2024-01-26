@@ -98,6 +98,7 @@ export default function Home() {
   },[]);
   return (
     <div style={{backgroundSize:'cover', backgroundImage: `url(${background})`}}>
+       <div className=" backdrop-blur-lg  shadow-2xl ">
     <div className="flex flex-col gap-6 text-pink-600 p-28 px-3 max-w-6xl mx-auto" >
         <h1 className="font-bold text-3xl lg:text-6xl">
           Find your next <span className="text-pink-300">events</span> 
@@ -124,7 +125,7 @@ export default function Home() {
                 background: `url(${listing.imageUrls[0]}) center no-repeat`,
                 backgroundSize: 'cover',
               }}
-              className='h-[550px] w-full max-[380px]:h-[290px]'
+              className='h-[550px] w-full max-md:h-[250px]'
               key={listing._id}
               ></div>
           </SwiperSlide>
@@ -228,6 +229,7 @@ export default function Home() {
             </div>
           </div>
         )}
+        </div>
         </div>
         </div>
   )
