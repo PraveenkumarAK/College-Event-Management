@@ -4,9 +4,10 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore from "swiper";
 import { Navigation } from "swiper/modules";
 import "swiper/css/bundle";
-import { IoIosShareAlt } from "react-icons/io";
+import { RiShareForwardFill } from "react-icons/ri";
 import Query from "../components/Query";
 import { useSelector } from "react-redux";
+import background from '../assets/jeremy-chevallier.jpg'
 
 export default function Listing() {
   SwiperCore.use([Navigation]);
@@ -56,13 +57,13 @@ export default function Listing() {
   };
 
   return (
-    <main className="text-white">
+    <main className="text-white" style={{backgroundSize:'cover', backgroundImage: `url(${background})`}}>
       {loading && <p className="text-center my-7 text-2xl">Loading...</p>}
       {error && (
         <p className="text-center my-7 text-2xl">Something went wrong!</p>
       )}
       {listing && !loading && !error && (
-        <div className="p-1 max-w-lg mx-auto  backdrop-blur-3xl  shadow-2xl mt-6 rounded-lg h-full max-[690px]:w-72 max-sm:mt-0">
+        <div className="p-1 max-w-lg mx-auto  backdrop-blur-3xl  shadow-2xl  rounded-lg h-full max-[690px]:w-72 max-sm:mt-0">
           <div>
             <Swiper navigation className="mt-2">
               {listing.imageUrls.map((url) => (
@@ -78,8 +79,8 @@ export default function Listing() {
               ))}
             </Swiper>
 
-            <p className="fixed top-[3%] right-[12%] z-10 max-[690px]:right-[3%] max-[690px]:h-5  max-[690px]:w-5 border rounded-full w-6 h-6 flex justify-center bg-blackitems-center cursor-pointer">
-              <IoIosShareAlt
+            <p className="fixed top-[3%] right-[12%] z-10 max-[690px]:right-[3%] max-[690px]:h-5  max-[690px]:w-5  w-6 h-6 flex justify-center bg-blackitems-center cursor-pointer">
+              <RiShareForwardFill  
                 onClick={() => {
                   navigator.clipboard.writeText(window.location.href);
                   setCopied(true);
