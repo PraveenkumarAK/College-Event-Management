@@ -8,6 +8,7 @@ import {
 import { app } from "../firebase";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import background from '../assets/jeremy-chevallier.jpg'
 
 export default function CreateListing() {
   const { currentUser } = useSelector((state) => state.user);
@@ -146,7 +147,8 @@ export default function CreateListing() {
     }
   };
   return (
-    <main className="p-3 max-w-4xl mx-auto  backdrop-blur-lg mt-8 shadow-2xl rounded-lg h-full  text-white ">
+    <div  style={{backgroundSize:'cover', backgroundImage: `url(${background})`}}>
+    <main className="p-3 max-w-4xl mx-auto  backdrop-blur-lg shadow-2xl rounded-lg h-full  text-white ">
       <h1 className="text-3xl font-semibold text-center my-7 pb-2 border-b max-w-full">
         Create a Listing
       </h1>
@@ -321,5 +323,6 @@ export default function CreateListing() {
         </div>
       </form>
     </main>
+    </div>
   );
 }
