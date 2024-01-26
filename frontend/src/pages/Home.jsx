@@ -5,6 +5,7 @@ import { Navigation } from 'swiper/modules';
 import SwiperCore from 'swiper';
 import 'swiper/css/bundle';
 import Listingitem from "../components/Listingitem";
+import background from '../assets/jeremy-chevallier.jpg'
 
 export default function Home() {
   const [technicalEventListings, setTechnicalEventListings] = useState([]);
@@ -96,7 +97,7 @@ export default function Home() {
       fetchTechnicalEventListings();
   },[]);
   return (
-    <div>
+    <div style={{backgroundSize:'cover', backgroundImage: `url(${background})`}}>
     <div className="flex flex-col gap-6 text-pink-600 p-28 px-3 max-w-6xl mx-auto" >
         <h1 className="font-bold text-3xl lg:text-6xl">
           Find your next <span className="text-pink-300">events</span> 
@@ -137,7 +138,7 @@ export default function Home() {
               <h2 className='text-3xl font-semibold text-pink-600 max-[380px]:text-2xl font-serif'>Recent technicalEvent</h2>
               <Link className='text-sm text-pink-300 hover:underline font-serif' to={'/search?offer=true'}>Show more technicalEvent</Link>
             </div>
-            <div className='flex flex-wrap gap-12 text-white justify-evenly'>
+            <div className='flex flex-wrap gap-12  text-white justify-evenly'>
               {technicalEventListings.map((listing) => (
                 <Listingitem listing={listing} key={listing._id} />
               ))}
