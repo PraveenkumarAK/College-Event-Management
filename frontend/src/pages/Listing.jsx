@@ -63,7 +63,8 @@ export default function Listing() {
         <p className="text-center my-7 text-2xl">Something went wrong!</p>
       )}
       {listing && !loading && !error && (
-        <div className="p-1 max-w-lg mx-auto  backdrop-blur-3xl  shadow-2xl  rounded-lg h-full max-[690px]:w-72 max-sm:mt-0">
+        <div className=" backdrop-blur-lg  shadow-2xl ">
+        <div className="p-1 max-w-lg mx-auto  h-full max-[690px]:w-72 max-sm:mt-0">
           <div>
             <Swiper navigation className="mt-2">
               {listing.imageUrls.map((url) => (
@@ -79,7 +80,7 @@ export default function Listing() {
               ))}
             </Swiper>
 
-            <p className="fixed top-[3%] right-[12%] z-10 max-[690px]:right-[3%] max-[690px]:h-5  max-[690px]:w-5  w-6 h-6 flex justify-center bg-blackitems-center cursor-pointer">
+            <p className="fixed top-[3%] right-[37%] z-10 max-[690px]:right-[3%] max-[690px]:h-5  max-[690px]:w-5  w-6 h-6 flex justify-center bg-blackitems-center cursor-pointer">
               <RiShareForwardFill  
                 onClick={() => {
                   navigator.clipboard.writeText(window.location.href);
@@ -166,6 +167,7 @@ export default function Listing() {
 
           </div>
         </div>
+      </div>
       )}
     </main>
   );
