@@ -3,5 +3,6 @@
 @tailwind utilities;
 
 body{
-    background-color: black;
+    background-image: url('E:\Event Management\frontend\src\assets\jeremy-chevallier.jpg');
+    background-size: cover;
 }
