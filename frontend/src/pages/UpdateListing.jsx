@@ -168,7 +168,8 @@ export default function UpdateListing() {
   };
   return (
     <div  style={{backgroundSize:'cover', backgroundImage: `url(${background})`}}>
-    <main className="p-3 max-w-4xl mx-auto  backdrop-blur-xl shadow-2xl rounded-lg h-full  text-white ">
+      <div className="backdrop-blur-lg shadow-2xl">
+    <main className="p-3 max-w-4xl mx-auto h-full  text-white ">
     <h1 className="text-3xl font-semibold text-center my-7 pb-2 border-b max-w-full">
       Update a Listing
     </h1>
@@ -344,6 +345,7 @@ export default function UpdateListing() {
         </div>
       </form>
     </main>
+    </div>
     </div>
   );
 }
