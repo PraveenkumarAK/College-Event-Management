@@ -5,7 +5,6 @@ import { Navigation } from 'swiper/modules';
 import SwiperCore from 'swiper';
 import 'swiper/css/bundle';
 import Listingitem from "../components/Listingitem";
-import background from '../assets/jeremy-chevallier.jpg'
 
 export default function Home() {
   const [technicalEventListings, setTechnicalEventListings] = useState([]);
@@ -97,7 +96,7 @@ export default function Home() {
       fetchTechnicalEventListings();
   },[]);
   return (
-    <div style={{backgroundSize:'cover', backgroundImage: `url(${background})`}}>
+    <div>
     <div className="flex flex-col gap-6 text-pink-600 p-28 px-3 max-w-6xl mx-auto" >
         <h1 className="font-bold text-3xl lg:text-6xl">
           Find your next <span className="text-pink-300">events</span> 
