@@ -50,9 +50,10 @@ export default function Signup() {
   };
 
   return (
-    <div className=" max-sm:mt-2  flex flex-col items-center justify-center h-screen"  style={{backgroundSize:'cover', backgroundImage: `url(${background})`}}>
-
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4  backdrop-blur-lg items-center shadow-2xl rounded-lg px-10 py-12 max-[690px]:w-[375px] ">
+    <div style={{backgroundSize:'cover', backgroundImage: `url(${background})`}}>
+      <div className=" backdrop-blur-lg flex justify-center shadow-2xl ">
+    <div className=" max-sm:mt-2  flex flex-col justify-center h-screen"  >
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4 place-items-center">
       <h1 className="text-3xl text-center font-semibold my-7 text-white">Sign up</h1>
         <input
           type="text"
@@ -100,6 +101,8 @@ export default function Signup() {
       </div>
       {error && <p className="text-red-700 mt-5">{error}</p>}
       </form>
+    </div>
+    </div>
     </div>
   );
 }
