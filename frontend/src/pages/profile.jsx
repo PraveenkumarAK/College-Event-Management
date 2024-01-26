@@ -24,7 +24,6 @@ import { MdDelete } from "react-icons/md";
 import { RiEdit2Fill } from "react-icons/ri";
 import { BiShowAlt } from "react-icons/bi";
 import { BiSolidHide } from "react-icons/bi";
-import background from '../assets/jeremy-chevallier.jpg'
 
 export default function profile() {
   const fileRef = useRef(null);
@@ -174,7 +173,6 @@ export default function profile() {
   };
 
   return (
-    <div style={{backgroundSize:'cover', backgroundImage: `url(${background})`}}>
     <div className="p-3 max-w-lg mx-auto backdrop-blur-lg shadow-2xl rounded-lg h-full ">
       <h1 className="text-3xl font-semibold text-center my-7 text-white">
         Profile
@@ -315,7 +313,6 @@ export default function profile() {
           ))}
         </div>
       )}
-    </div>
     </div>
   );
 }
