@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import OAuth from "../components/OAuth";
 import { BiShowAlt } from "react-icons/bi";
 import { BiSolidHide } from "react-icons/bi";
+import background from '../assets/jeremy-chevallier.jpg'
 
 export default function Signup() {
   const [formData, setFormData] = useState({});
@@ -49,7 +50,7 @@ export default function Signup() {
   };
 
   return (
-    <div className="mt-20 max-sm:mt-2 mb-12 flex flex-col items-center">
+    <div className=" max-sm:mt-2  flex flex-col items-center justify-center h-screen"  style={{backgroundSize:'cover', backgroundImage: `url(${background})`}}>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-4  backdrop-blur-lg items-center shadow-2xl rounded-lg px-10 py-12 max-[690px]:w-[375px] ">
       <h1 className="text-3xl text-center font-semibold my-7 text-white">Sign up</h1>
