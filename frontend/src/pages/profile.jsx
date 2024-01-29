@@ -175,7 +175,8 @@ export default function profile() {
 
   return (
     <div style={{backgroundSize:'cover', backgroundImage: `url(${background})`}}>
-    <div className="p-3 max-w-lg mx-auto backdrop-blur-lg shadow-2xl rounded-lg h-screen ">
+      <div className="backdrop-blur-lg shadow-2xl">
+    <div className="p-3 max-w-lg mx-auto h-screen ">
       <h1 className="text-3xl font-semibold text-center my-7 text-white">
         Profile
       </h1>
@@ -315,6 +316,7 @@ export default function profile() {
           ))}
         </div>
       )}
+    </div>
     </div>
     </div>
   );
