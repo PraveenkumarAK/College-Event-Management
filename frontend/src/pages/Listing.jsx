@@ -159,7 +159,7 @@ export default function Listing() {
                   onClick={() => setQuery(true)}
                   className='bg-transparent w-64  text-white text-xl font-medium p-2 cursor-pointer rounded-lg border border-white hover:bg-white duration-300 hover:text-black'
                 >
-                  Querys
+                  Query
                 </button>
               </div>
             )}
